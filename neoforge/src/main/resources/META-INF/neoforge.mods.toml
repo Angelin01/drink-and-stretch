@@ -1,0 +1,31 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+issueTrackerURL = "https://github.com/Angelin01/drink-and-stretch/issues"
+license = "Apache-2.0"
+
+[[mods]]
+modId = "drinkandstretch"
+version = "${version}"
+displayName = "Drink and Stretch"
+authors = "Angelin01"
+description = '''
+A Minecraft mod to remind you to drink water and stretch every once in a while.
+'''
+#logoFile = ""
+
+[[dependencies.drinkandstretch]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.drinkandstretch]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "drinkandstretch.mixins.json"
