@@ -2,8 +2,6 @@ package com.angelin01.drinkandstretch.fabric;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 
 import com.angelin01.drinkandstretch.DrinkAndStretch;
 
@@ -18,7 +16,7 @@ public final class DrinkAndStretchFabric implements ModInitializer {
 		System.out.println("Hello from fabric!");
 
 		ClientPlayConnectionEvents.JOIN.register((_handler, _sender, _client) -> {
-			DrinkAndStretch.showToast();
+			DrinkAndStretch.startPeriodicReminders();
 		});
 	}
 }

@@ -10,7 +10,7 @@ public class EventHandler {
 	@SubscribeEvent
 	public void onEntityJoinLevel(EntityJoinLevelEvent event) {
 		if ((event.getEntity() instanceof LocalPlayer)) {
-			DrinkAndStretch.showToast();
+			DrinkAndStretch.startPeriodicReminders();
 		}
 	}
 }
