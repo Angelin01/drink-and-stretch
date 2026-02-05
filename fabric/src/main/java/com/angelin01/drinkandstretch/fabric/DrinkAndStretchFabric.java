@@ -1,13 +1,13 @@
 package com.angelin01.drinkandstretch.fabric;
 
+import com.angelin01.drinkandstretch.fabric.events.EventHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 
 import com.angelin01.drinkandstretch.DrinkAndStretch;
 
 public final class DrinkAndStretchFabric implements ModInitializer {
+
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -17,8 +17,6 @@ public final class DrinkAndStretchFabric implements ModInitializer {
 		DrinkAndStretch.init();
 		System.out.println("Hello from fabric!");
 
-		ClientPlayConnectionEvents.JOIN.register((_handler, _sender, _client) -> {
-			DrinkAndStretch.showToast();
-		});
+		new EventHandler().register();
 	}
 }

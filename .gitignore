@@ -5,7 +5,11 @@ build/
 !**/src/test/**/build/
 
 ### IntelliJ IDEA ###
-.idea/
+.idea/*
+!.idea/
+!.idea/runConfigurations/
+!.idea/inspectionProfiles/
+!.idea/codeStyles/
 *.iws
 *.iml
 *.ipr
