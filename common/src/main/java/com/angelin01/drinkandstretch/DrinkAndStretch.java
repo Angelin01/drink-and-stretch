@@ -16,6 +16,7 @@ public final class DrinkAndStretch {
 	}
 
 	public static void startPeriodicReminders() {
+		DrinkAndStretch.periodicToaster.cancelAll();
 		DrinkAndStretch.periodicToaster.schedule(5, DrinkAndStretch.showToast("Drink Water", "Do it NOW!"));
 		DrinkAndStretch.periodicToaster.schedule(15, DrinkAndStretch.showToast("Stretch", "Get up you lazy bum"));
 	}
