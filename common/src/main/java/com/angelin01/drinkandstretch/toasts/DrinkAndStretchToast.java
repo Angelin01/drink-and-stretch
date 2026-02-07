@@ -18,10 +18,19 @@ import org.jetbrains.annotations.Nullable;
 public class DrinkAndStretchToast implements Toast {
 	private static final long DISPLAY_DURATION = 5000L;
 
-	private static final ResourceLocation BACKGROUND_SPRITE = DrinkAndStretch.resourceLocation("toast/background");
-	private static final int BACKGROUND_WIDTH = 160;
-	private static final int BACKGROUND_HEIGHT = 32;
-	private static final int TEXT_MARGIN = 29;
+	private static final ResourceLocation BG_SPRITE = DrinkAndStretch.resourceLocation("toast/background");
+	private static final int BG_WIDTH = 160;
+	private static final int BG_HEIGHT = 32;
+	private static final int BG_SIDE_CAP_WIDTH = 40;
+	private static final int BG_MIDDLE_U = DrinkAndStretchToast.BG_SIDE_CAP_WIDTH;
+	private static final int BG_MIDDLE_WIDTH = DrinkAndStretchToast.BG_WIDTH - DrinkAndStretchToast.BG_SIDE_CAP_WIDTH * 2;
+
+	private static final int TEXT_LEFT_MARGIN = 29;
+	private static final int TEXT_RIGHT_MARGIN = 4;
+
+	private static final int ICON_MARGIN = 8;
+	private static final int ICON_SIZE = 16;
+
 	private final DrinkAndStretchToastId id;
 	private final int width;
 	private Component title;
@@ -31,16 +40,16 @@ public class DrinkAndStretchToast implements Toast {
 
 	public DrinkAndStretchToast(DrinkAndStretchToastId id, Component title, @Nullable Component message) {
 		this(
-			id,
-			title,
-			message != null ? message.getVisualOrderText() : null,
-			Math.max(
-				DrinkAndStretchToast.BACKGROUND_WIDTH,
-				DrinkAndStretchToast.TEXT_MARGIN + Math.max(
-					Minecraft.getInstance().font.width(title),
-					message == null ? 0 : Minecraft.getInstance().font.width(message)
+				id,
+				title,
+				message != null ? message.getVisualOrderText() : null,
+				Math.max(
+						DrinkAndStretchToast.BG_WIDTH,
+						DrinkAndStretchToast.TEXT_LEFT_MARGIN + DrinkAndStretchToast.TEXT_RIGHT_MARGIN + Math.max(
+								Minecraft.getInstance().font.width(title),
+								message == null ? 0 : Minecraft.getInstance().font.width(message)
+						)
 				)
-			)
 		);
 	}
 
@@ -81,32 +90,58 @@ public class DrinkAndStretchToast implements Toast {
 	}
 
 	private void renderBackground(GuiGraphics g) {
+		final int targetWidth = this.width();
+		final int height = DrinkAndStretchToast.BG_HEIGHT;
+
+		final int left = DrinkAndStretchToast.BG_SIDE_CAP_WIDTH;
+		final int right = DrinkAndStretchToast.BG_SIDE_CAP_WIDTH;
+		final int middleTargetWidth = targetWidth - left - right;
+
 		g.blitSprite(
-			DrinkAndStretchToast.BACKGROUND_SPRITE,
-			0,
-			0,
-			DrinkAndStretchToast.BACKGROUND_WIDTH,
-			DrinkAndStretchToast.BACKGROUND_HEIGHT
+				DrinkAndStretchToast.BG_SPRITE,
+				DrinkAndStretchToast.BG_WIDTH, DrinkAndStretchToast.BG_HEIGHT,
+				0, 0,
+				0, 0,
+				left, height
+		);
+
+		for (int x = 0; x < middleTargetWidth; x += DrinkAndStretchToast.BG_MIDDLE_WIDTH) {
+			int sliceWidth = Math.min(DrinkAndStretchToast.BG_MIDDLE_WIDTH, middleTargetWidth - x);
+			g.blitSprite(
+					DrinkAndStretchToast.BG_SPRITE,
+					DrinkAndStretchToast.BG_WIDTH, DrinkAndStretchToast.BG_HEIGHT,
+					DrinkAndStretchToast.BG_MIDDLE_U, 0,
+					left + x, 0,
+					sliceWidth, height
+			);
+		}
+
+		g.blitSprite(
+				DrinkAndStretchToast.BG_SPRITE,
+				DrinkAndStretchToast.BG_WIDTH, DrinkAndStretchToast.BG_HEIGHT,
+				DrinkAndStretchToast.BG_WIDTH - right, 0,
+				left + middleTargetWidth, 0,
+				right, height
 		);
 	}
 
 	private void renderIcon(GuiGraphics g) {
 		g.blitSprite(
-			this.id.icon,
-			8,
-			8,
-			16,
-			16
+				this.id.icon,
+				DrinkAndStretchToast.ICON_MARGIN,
+				DrinkAndStretchToast.ICON_MARGIN,
+				DrinkAndStretchToast.ICON_SIZE,
+				DrinkAndStretchToast.ICON_SIZE
 		);
 	}
 
 	private void renderText(GuiGraphics g, ToastComponent toastComponent) {
-		final int leftPadding = DrinkAndStretchToast.TEXT_MARGIN;
+		final int posX = DrinkAndStretchToast.TEXT_LEFT_MARGIN;
 		final int titleColor = 0x19e0fa;
 		final int messageColor = 0xFFFFFF;
 		final Font font = toastComponent.getMinecraft().font;
-		g.drawString(font, this.title, leftPadding, 6, titleColor, true);
-		g.drawString(font, this.message, leftPadding, 18, messageColor, true);
+		g.drawString(font, this.title, posX, 6, titleColor, true);
+		g.drawString(font, this.message, posX, 18, messageColor, true);
 	}
 
 	public void reset(Component title, @Nullable Component message) {
@@ -122,7 +157,7 @@ public class DrinkAndStretchToast implements Toast {
 
 	@Override
 	public int height() {
-		return DrinkAndStretchToast.BACKGROUND_HEIGHT;
+		return DrinkAndStretchToast.BG_HEIGHT;
 	}
 
 	@Override
