@@ -168,7 +168,7 @@ public class DrinkAndStretchToast implements Toast {
 	@Environment(EnvType.CLIENT)
 	public final static class DrinkAndStretchToastId {
 		public static final DrinkAndStretchToastId DRINK = new DrinkAndStretchToastId("toast/icon_drink");
-		public static final DrinkAndStretchToastId STRETCH = new DrinkAndStretchToastId("toast/icon_drink"); // TODO other icon
+		public static final DrinkAndStretchToastId STRETCH = new DrinkAndStretchToastId("toast/icon_stretch");
 
 		final ResourceLocation icon;
 
