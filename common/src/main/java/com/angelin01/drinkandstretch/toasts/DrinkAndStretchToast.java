@@ -60,17 +60,22 @@ public class DrinkAndStretchToast implements Toast {
 		this.width = width;
 	}
 
-	public static void add(ToastComponent toastComponent, DrinkAndStretchToastId id, Component component, @Nullable Component component2) {
-		toastComponent.addToast(new DrinkAndStretchToast(id, component, component2));
+	public static void add(ToastComponent toastComponent, DrinkAndStretchToastId id, Component title, @Nullable Component message) {
+		toastComponent.addToast(new DrinkAndStretchToast(id, title, message));
 	}
 
-	public static void addOrUpdate(ToastComponent toastComponent, DrinkAndStretchToastId id, Component component, @Nullable Component component2) {
+	public static void addOrUpdate(ToastComponent toastComponent, DrinkAndStretchToastId id, Component title, @Nullable Component message) {
 		DrinkAndStretchToast toast = toastComponent.getToast(DrinkAndStretchToast.class, id);
 		if (toast == null) {
-			DrinkAndStretchToast.add(toastComponent, id, component, component2);
+			DrinkAndStretchToast.add(toastComponent, id, title, message);
 		} else {
-			toast.reset(component, component2);
+			toast.reset(title, message);
 		}
+	}
+
+	@Override
+	public @NotNull DrinkAndStretchToastId getToken() {
+		return this.id;
 	}
 
 	@Override
@@ -137,7 +142,7 @@ public class DrinkAndStretchToast implements Toast {
 
 	private void renderText(GuiGraphics g, ToastComponent toastComponent) {
 		final int posX = DrinkAndStretchToast.TEXT_LEFT_MARGIN;
-		final int titleColor = 0x19e0fa;
+		final int titleColor = this.id.titleColor;
 		final int messageColor = 0xFFFFFF;
 		final Font font = toastComponent.getMinecraft().font;
 		g.drawString(font, this.title, posX, 6, titleColor, true);
@@ -167,13 +172,15 @@ public class DrinkAndStretchToast implements Toast {
 
 	@Environment(EnvType.CLIENT)
 	public final static class DrinkAndStretchToastId {
-		public static final DrinkAndStretchToastId DRINK = new DrinkAndStretchToastId("toast/icon_drink");
-		public static final DrinkAndStretchToastId STRETCH = new DrinkAndStretchToastId("toast/icon_stretch");
+		public static final DrinkAndStretchToastId DRINK = new DrinkAndStretchToastId("toast/icon_drink", 0x19E0FA);
+		public static final DrinkAndStretchToastId STRETCH = new DrinkAndStretchToastId("toast/icon_stretch", 0xFFFF00);
 
 		final ResourceLocation icon;
+		final int titleColor;
 
-		private DrinkAndStretchToastId(String path) {
+		private DrinkAndStretchToastId(String path, int titleColor) {
 			this.icon = DrinkAndStretch.resourceLocation(path);
+			this.titleColor = titleColor;
 		}
 	}
 }
