@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 
 public final class DrinkAndStretch {
 	public static final String MOD_ID = "drinkandstretch";
-	private static final Object DRINK_AND_STRETCH = new Object();
 
 	private static ReminderScheduler periodicToaster;
 
@@ -23,7 +22,7 @@ public final class DrinkAndStretch {
 	public static void startPeriodicReminders() {
 		DrinkAndStretch.periodicToaster.cancelAll();
 		DrinkAndStretch.periodicToaster.schedule(5, DrinkAndStretch.showToast(DrinkAndStretchToast.DrinkAndStretchToastId.DRINK, "Drink Water", "Do it NOW!"));
-		DrinkAndStretch.periodicToaster.schedule(15, DrinkAndStretch.showToast(DrinkAndStretchToast.DrinkAndStretchToastId.STRETCH, "Stretch", "Get up you lazy bum"));
+		DrinkAndStretch.periodicToaster.schedule(8, DrinkAndStretch.showToast(DrinkAndStretchToast.DrinkAndStretchToastId.STRETCH, "Stretch", "Get up you lazy bum"));
 	}
 
 	public static void stopPeriodicReminders() {
@@ -33,7 +32,7 @@ public final class DrinkAndStretch {
 	private static Runnable showToast(DrinkAndStretchToast.DrinkAndStretchToastId id, String title, String content) {
 		return () -> {
 			Minecraft minecraft = Minecraft.getInstance();
-			minecraft.execute(() -> DrinkAndStretchToast.add(
+			minecraft.execute(() -> DrinkAndStretchToast.addOrUpdate(
 				minecraft.getToasts(),
 				id,
 				Component.literal(title),
