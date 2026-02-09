@@ -1,8 +1,8 @@
 package com.angelin01.drinkandstretch;
 
 import com.angelin01.drinkandstretch.toasts.DrinkAndStretchToast;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
+import com.angelin01.drinkandstretch.toasts.ToastDispatcher;
+import com.angelin01.drinkandstretch.toasts.ToastVariants;
 import net.minecraft.resources.ResourceLocation;
 
 public final class DrinkAndStretch {
@@ -21,23 +21,25 @@ public final class DrinkAndStretch {
 
 	public static void startPeriodicReminders() {
 		DrinkAndStretch.periodicToaster.cancelAll();
-		DrinkAndStretch.periodicToaster.schedule(5, DrinkAndStretch.showToast(DrinkAndStretchToast.DrinkAndStretchToastId.DRINK, "Drink Water", "Do it NOW!"));
-		DrinkAndStretch.periodicToaster.schedule(8, DrinkAndStretch.showToast(DrinkAndStretchToast.DrinkAndStretchToastId.STRETCH, "Stretch", "Get up you lazy bum"));
+
+		DrinkAndStretch.periodicToaster.schedule(
+			7,
+			ToastDispatcher.show(
+				DrinkAndStretchToast.DrinkAndStretchToastId.DRINK,
+				ToastVariants.DRINK
+			)
+		);
+
+		DrinkAndStretch.periodicToaster.schedule(
+			10,
+			ToastDispatcher.show(
+				DrinkAndStretchToast.DrinkAndStretchToastId.STRETCH,
+				ToastVariants.STRETCH
+			)
+		);
 	}
 
 	public static void stopPeriodicReminders() {
 		DrinkAndStretch.periodicToaster.cancelAll();
-	}
-
-	private static Runnable showToast(DrinkAndStretchToast.DrinkAndStretchToastId id, String title, String content) {
-		return () -> {
-			Minecraft minecraft = Minecraft.getInstance();
-			minecraft.execute(() -> DrinkAndStretchToast.addOrUpdate(
-				minecraft.getToasts(),
-				id,
-				Component.literal(title),
-				Component.literal(content)
-			));
-		};
 	}
 }

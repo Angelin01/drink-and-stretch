@@ -16,8 +16,6 @@ import org.jetbrains.annotations.Nullable;
 
 @Environment(EnvType.CLIENT)
 public class DrinkAndStretchToast implements Toast {
-	private static final long DISPLAY_DURATION = 5000L;
-
 	private static final ResourceLocation BG_SPRITE = DrinkAndStretch.resourceLocation("toast/background");
 	private static final int BG_WIDTH = 160;
 	private static final int BG_HEIGHT = 32;
@@ -79,7 +77,7 @@ public class DrinkAndStretchToast implements Toast {
 	}
 
 	@Override
-	public Toast.@NotNull Visibility render(GuiGraphics guiGraphics, ToastComponent toastComponent, long nowMillis) {
+	public @NotNull Visibility render(GuiGraphics guiGraphics, ToastComponent toastComponent, long nowMillis) {
 		if (this.changed) {
 			this.lastChanged = nowMillis;
 			this.changed = false;
@@ -89,9 +87,9 @@ public class DrinkAndStretchToast implements Toast {
 		this.renderIcon(guiGraphics);
 		this.renderText(guiGraphics, toastComponent);
 
-		final double totalDuration = DrinkAndStretchToast.DISPLAY_DURATION * toastComponent.getNotificationDisplayTimeMultiplier();
+		final double totalDuration = this.id.durationMillis * toastComponent.getNotificationDisplayTimeMultiplier();
 		final long elapsed = nowMillis - this.lastChanged;
-		return elapsed < totalDuration ? Toast.Visibility.SHOW : Toast.Visibility.HIDE;
+		return elapsed < totalDuration ? Visibility.SHOW : Visibility.HIDE;
 	}
 
 	private void renderBackground(GuiGraphics g) {
@@ -172,14 +170,16 @@ public class DrinkAndStretchToast implements Toast {
 
 	@Environment(EnvType.CLIENT)
 	public final static class DrinkAndStretchToastId {
-		public static final DrinkAndStretchToastId DRINK = new DrinkAndStretchToastId("toast/icon_drink", 0x19E0FA);
-		public static final DrinkAndStretchToastId STRETCH = new DrinkAndStretchToastId("toast/icon_stretch", 0xFFFF00);
+		public static final DrinkAndStretchToastId DRINK = new DrinkAndStretchToastId("toast/icon_drink", 5000L, 0x19E0FA);
+		public static final DrinkAndStretchToastId STRETCH = new DrinkAndStretchToastId("toast/icon_stretch", 8000L, 0xFFFF00);
 
 		final ResourceLocation icon;
+		final long durationMillis;
 		final int titleColor;
 
-		private DrinkAndStretchToastId(String path, int titleColor) {
+		private DrinkAndStretchToastId(String path, long durationMillis, int titleColor) {
 			this.icon = DrinkAndStretch.resourceLocation(path);
+			this.durationMillis = durationMillis;
 			this.titleColor = titleColor;
 		}
 	}
