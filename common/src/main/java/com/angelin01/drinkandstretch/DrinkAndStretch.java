@@ -1,9 +1,9 @@
 package com.angelin01.drinkandstretch;
 
 import com.angelin01.drinkandstretch.config.DrinkAndStretchConfig;
-import com.angelin01.drinkandstretch.toasts.DrinkAndStretchToast;
-import com.angelin01.drinkandstretch.toasts.ToastDispatcher;
-import com.angelin01.drinkandstretch.toasts.ToastVariants;
+import com.angelin01.drinkandstretch.reminders.ReminderScheduler;
+import com.angelin01.drinkandstretch.reminders.ReminderService;
+import com.mojang.logging.LogUtils;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
@@ -11,18 +11,18 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 @Environment(EnvType.CLIENT)
 public final class DrinkAndStretch {
 	public static final String MOD_ID = "drinkandstretch";
-
-	private static ReminderScheduler periodicToaster;
+	private static final Logger LOGGER = LogUtils.getLogger();
+	private static ReminderService reminderService;
 	private static DrinkAndStretchConfig config;
-	private static boolean periodRemindersRunning = false;
 
 	public static void init() {
-		System.out.println("Hello from common!");
-		DrinkAndStretch.periodicToaster = new ReminderScheduler();
+		DrinkAndStretch.LOGGER.info("Drink and Stretch getting its water bottle filled up");
+		DrinkAndStretch.reminderService = new ReminderService(new ReminderScheduler());
 	}
 
 	public static @NotNull ConfigHolder<DrinkAndStretchConfig> setupConfig() {
@@ -36,9 +36,7 @@ public final class DrinkAndStretch {
 
 	public static void onConfigSave(DrinkAndStretchConfig config) {
 		DrinkAndStretch.config = config;
-		if (DrinkAndStretch.periodRemindersRunning) {
-			DrinkAndStretch.startPeriodicReminders();
-		}
+		DrinkAndStretch.reminderService.onConfigReload(config);
 	}
 
 	public static ResourceLocation resourceLocation(String path) {
@@ -46,33 +44,10 @@ public final class DrinkAndStretch {
 	}
 
 	public static void startPeriodicReminders() {
-		DrinkAndStretch.periodicToaster.cancelAll();
-
-		if (DrinkAndStretch.config.isDrinkReminderEnabled()) {
-			DrinkAndStretch.periodicToaster.schedule(
-				DrinkAndStretch.config.getDrinkReminderInterval(),
-				ToastDispatcher.show(
-					DrinkAndStretchToast.DrinkAndStretchToastId.DRINK,
-					ToastVariants.DRINK
-				)
-			);
-		}
-
-		if (DrinkAndStretch.config.isStretchReminderEnabled()) {
-			DrinkAndStretch.periodicToaster.schedule(
-				DrinkAndStretch.config.getStretchReminderInterval(),
-				ToastDispatcher.show(
-					DrinkAndStretchToast.DrinkAndStretchToastId.STRETCH,
-					ToastVariants.STRETCH
-				)
-			);
-		}
-
-		DrinkAndStretch.periodRemindersRunning = true;
+		DrinkAndStretch.reminderService.startOrRestart(DrinkAndStretch.config);
 	}
 
 	public static void stopPeriodicReminders() {
-		DrinkAndStretch.periodicToaster.cancelAll();
-		DrinkAndStretch.periodRemindersRunning = false;
+		DrinkAndStretch.reminderService.stop();
 	}
 }
