@@ -1,18 +1,44 @@
 package com.angelin01.drinkandstretch;
 
+import com.angelin01.drinkandstretch.config.DrinkAndStretchConfig;
 import com.angelin01.drinkandstretch.toasts.DrinkAndStretchToast;
 import com.angelin01.drinkandstretch.toasts.ToastDispatcher;
 import com.angelin01.drinkandstretch.toasts.ToastVariants;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigHolder;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
+@Environment(EnvType.CLIENT)
 public final class DrinkAndStretch {
 	public static final String MOD_ID = "drinkandstretch";
 
 	private static ReminderScheduler periodicToaster;
+	private static DrinkAndStretchConfig config;
+	private static boolean periodRemindersRunning = false;
 
 	public static void init() {
 		System.out.println("Hello from common!");
 		DrinkAndStretch.periodicToaster = new ReminderScheduler();
+	}
+
+	public static @NotNull ConfigHolder<DrinkAndStretchConfig> setupConfig() {
+		AutoConfig.register(DrinkAndStretchConfig.class, Toml4jConfigSerializer::new);
+
+		var configHolder = AutoConfig.getConfigHolder(DrinkAndStretchConfig.class);
+
+		DrinkAndStretch.config = configHolder.getConfig();
+		return configHolder;
+	}
+
+	public static void onConfigSave(DrinkAndStretchConfig config) {
+		DrinkAndStretch.config = config;
+		if (DrinkAndStretch.periodRemindersRunning) {
+			DrinkAndStretch.startPeriodicReminders();
+		}
 	}
 
 	public static ResourceLocation resourceLocation(String path) {
@@ -22,24 +48,31 @@ public final class DrinkAndStretch {
 	public static void startPeriodicReminders() {
 		DrinkAndStretch.periodicToaster.cancelAll();
 
-		DrinkAndStretch.periodicToaster.schedule(
-			7,
-			ToastDispatcher.show(
-				DrinkAndStretchToast.DrinkAndStretchToastId.DRINK,
-				ToastVariants.DRINK
-			)
-		);
+		if (DrinkAndStretch.config.isDrinkReminderEnabled()) {
+			DrinkAndStretch.periodicToaster.schedule(
+				DrinkAndStretch.config.getDrinkReminderInterval(),
+				ToastDispatcher.show(
+					DrinkAndStretchToast.DrinkAndStretchToastId.DRINK,
+					ToastVariants.DRINK
+				)
+			);
+		}
 
-		DrinkAndStretch.periodicToaster.schedule(
-			10,
-			ToastDispatcher.show(
-				DrinkAndStretchToast.DrinkAndStretchToastId.STRETCH,
-				ToastVariants.STRETCH
-			)
-		);
+		if (DrinkAndStretch.config.isStretchReminderEnabled()) {
+			DrinkAndStretch.periodicToaster.schedule(
+				DrinkAndStretch.config.getStretchReminderInterval(),
+				ToastDispatcher.show(
+					DrinkAndStretchToast.DrinkAndStretchToastId.STRETCH,
+					ToastVariants.STRETCH
+				)
+			);
+		}
+
+		DrinkAndStretch.periodRemindersRunning = true;
 	}
 
 	public static void stopPeriodicReminders() {
 		DrinkAndStretch.periodicToaster.cancelAll();
+		DrinkAndStretch.periodRemindersRunning = false;
 	}
 }

@@ -20,6 +20,9 @@
     ],
     "client": [
       "com.angelin01.drinkandstretch.fabric.client.DrinkAndStretchFabricClient"
+    ],
+    "modmenu": [
+      "com.angelin01.drinkandstretch.fabric.ModMenuIntegration"
     ]
   },
   "mixins": [
