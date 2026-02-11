@@ -1,0 +1,11 @@
+{
+  "text.autoconfig.drinkandstretch.title": "Drink and Stretch Config",
+
+  "text.autoconfig.drinkandstretch.option.enableDrinkReminder.@PrefixText": "Drink Reminder options",
+  "text.autoconfig.drinkandstretch.option.enableDrinkReminder": "Enable Drink Reminder",
+  "text.autoconfig.drinkandstretch.option.drinkReminderInterval": "Drink Reminder Interval (minutes)",
+
+  "text.autoconfig.drinkandstretch.option.enableStretchReminder.@PrefixText": "Stretch Reminder options",
+  "text.autoconfig.drinkandstretch.option.enableStretchReminder": "Enable Stretch Reminder",
+  "text.autoconfig.drinkandstretch.option.stretchReminderInterval": "Stretch Reminder Interval (minutes)"
+}

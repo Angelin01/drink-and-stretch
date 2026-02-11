@@ -7,4 +7,9 @@ dependencies {
 	// which get remapped to the correct annotations on each platform.
 	// Do NOT use other classes from Fabric Loader.
 	modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+
+	// So the common project compiles, in reality we use the runtime deps for each
+	compileOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 }
