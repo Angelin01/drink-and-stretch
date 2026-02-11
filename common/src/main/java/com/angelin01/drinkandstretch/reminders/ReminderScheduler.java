@@ -1,4 +1,4 @@
-package com.angelin01.drinkandstretch;
+package com.angelin01.drinkandstretch.reminders;
 
 import java.util.ArrayList;
 import java.util.List;
