@@ -30,7 +30,7 @@ public class DrinkAndStretchToast implements Toast {
 	private static final int ICON_SIZE = 16;
 
 	private final DrinkAndStretchToastId id;
-	private final int width;
+	private int width;
 	private Component title;
 	private FormattedCharSequence message;
 	private long lastChanged;
@@ -41,13 +41,18 @@ public class DrinkAndStretchToast implements Toast {
 				id,
 				title,
 				message != null ? message.getVisualOrderText() : null,
-				Math.max(
-						DrinkAndStretchToast.BG_WIDTH,
-						DrinkAndStretchToast.TEXT_LEFT_MARGIN + DrinkAndStretchToast.TEXT_RIGHT_MARGIN + Math.max(
-								Minecraft.getInstance().font.width(title),
-								message == null ? 0 : Minecraft.getInstance().font.width(message)
-						)
-				)
+				DrinkAndStretchToast.calculateWidth(title, message)
+		);
+	}
+
+	private static int calculateWidth(Component title, @Nullable Component message) {
+		final Font font = Minecraft.getInstance().font;
+		return Math.max(
+			DrinkAndStretchToast.BG_WIDTH,
+			DrinkAndStretchToast.TEXT_LEFT_MARGIN + DrinkAndStretchToast.TEXT_RIGHT_MARGIN + Math.max(
+				font.width(title),
+				message == null ? 0 : font.width(message)
+			)
 		);
 	}
 
@@ -151,6 +156,7 @@ public class DrinkAndStretchToast implements Toast {
 		this.title = title;
 		this.message = message != null ? message.getVisualOrderText() : null;
 		this.changed = true;
+		this.width = DrinkAndStretchToast.calculateWidth(title, message);
 	}
 
 	@Override
