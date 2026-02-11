@@ -10,7 +10,7 @@ import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionResult;
+import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
 public final class DrinkAndStretch {
@@ -25,8 +25,13 @@ public final class DrinkAndStretch {
 		DrinkAndStretch.periodicToaster = new ReminderScheduler();
 	}
 
-	public static void setConfig(DrinkAndStretchConfig config) {
-		DrinkAndStretch.config = config;
+	public static @NotNull ConfigHolder<DrinkAndStretchConfig> setupConfig() {
+		AutoConfig.register(DrinkAndStretchConfig.class, Toml4jConfigSerializer::new);
+
+		var configHolder = AutoConfig.getConfigHolder(DrinkAndStretchConfig.class);
+
+		DrinkAndStretch.config = configHolder.getConfig();
+		return configHolder;
 	}
 
 	public static void onConfigSave(DrinkAndStretchConfig config) {
