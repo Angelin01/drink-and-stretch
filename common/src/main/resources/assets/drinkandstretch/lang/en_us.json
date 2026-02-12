@@ -7,5 +7,8 @@
 
   "text.autoconfig.drinkandstretch.option.enableStretchReminder.@PrefixText": "Stretch Reminder options",
   "text.autoconfig.drinkandstretch.option.enableStretchReminder": "Enable Stretch Reminder",
-  "text.autoconfig.drinkandstretch.option.stretchReminderInterval": "Stretch Reminder Interval (minutes)"
+  "text.autoconfig.drinkandstretch.option.stretchReminderInterval": "Stretch Reminder Interval (minutes)",
+
+  "text.autoconfig.drinkandstretch.option.enableInsults.@PrefixText": "Misc/Fun options",
+  "text.autoconfig.drinkandstretch.option.enableInsults": "Enable insults"
 }
