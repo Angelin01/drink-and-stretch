@@ -9,8 +9,13 @@ import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 @Environment(EnvType.CLIENT)
@@ -37,6 +42,14 @@ public final class DrinkAndStretch {
 	public static void onConfigSave(DrinkAndStretchConfig config) {
 		DrinkAndStretch.config = config;
 		DrinkAndStretch.reminderService.onConfigReload(config);
+	}
+
+	public static void onPlayerAttack(LocalPlayer player, Entity entity) {
+		DrinkAndStretch.LOGGER.info("Player {} attacked entity {}", player, entity);
+	}
+
+	public static void onPlayerReceiveDamage(LocalPlayer player, DamageSource source) {
+		DrinkAndStretch.LOGGER.info("Player {} received damage with source={}, entity={}, directEntitiy={}", player, source, source.getEntity(), source.getDirectEntity());
 	}
 
 	public static ResourceLocation resourceLocation(String path) {
