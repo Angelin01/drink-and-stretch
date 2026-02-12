@@ -18,6 +18,9 @@ public class DrinkAndStretchConfig implements ConfigData {
 	boolean enableStretchReminder = true;
 	int stretchReminderInterval = 120;
 
+	@ConfigEntry.Gui.PrefixText
+	boolean enableInsults = false;
+
 	@Override
 	public void validatePostLoad() {
 		if (this.drinkReminderInterval <= 0) {
@@ -42,5 +45,9 @@ public class DrinkAndStretchConfig implements ConfigData {
 
 	public int getStretchReminderInterval() {
 		return this.stretchReminderInterval;
+	}
+
+	public boolean isInsultsEnabled() {
+		return this.enableInsults;
 	}
 }
