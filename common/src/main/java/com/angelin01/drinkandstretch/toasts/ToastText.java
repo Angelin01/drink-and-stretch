@@ -8,10 +8,10 @@ public record ToastText(
 	@Nullable String message
 ) {
 	public Component titleComponent() {
-		return Component.literal(this.title);
+		return Component.translatable(this.title);
 	}
 
 	public Component messageComponent() {
-		return this.message == null ? Component.empty() : Component.literal(this.message);
+		return this.message == null ? Component.empty() : Component.translatable(this.message);
 	}
 }
