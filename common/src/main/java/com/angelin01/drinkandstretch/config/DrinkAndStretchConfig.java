@@ -20,6 +20,8 @@ public class DrinkAndStretchConfig implements ConfigData {
 
 	@ConfigEntry.Gui.PrefixText
 	boolean enableInsults = false;
+	@ConfigEntry.Gui.Tooltip
+	boolean enableDeferInCombat = true;
 
 	@Override
 	public void validatePostLoad() {
@@ -49,5 +51,9 @@ public class DrinkAndStretchConfig implements ConfigData {
 
 	public boolean isInsultsEnabled() {
 		return this.enableInsults;
+	}
+
+	public boolean isDeferInCombatEnabled() {
+		return this.enableDeferInCombat;
 	}
 }

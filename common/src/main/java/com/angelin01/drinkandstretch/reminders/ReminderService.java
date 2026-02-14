@@ -8,6 +8,7 @@ import com.angelin01.drinkandstretch.toasts.ToastVariants;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,7 +33,8 @@ public class ReminderService {
 				config.getDrinkReminderInterval(),
 				ToastVariants.DRINK,
 				ToastVariants.DRINK_INSULTS,
-				config.isInsultsEnabled()
+				config.isInsultsEnabled(),
+				config.isDeferInCombatEnabled()
 			);
 		}
 
@@ -42,7 +44,8 @@ public class ReminderService {
 				config.getStretchReminderInterval(),
 				ToastVariants.STRETCH,
 				ToastVariants.STRETCH_INSULTS,
-				config.isInsultsEnabled()
+				config.isInsultsEnabled(),
+				config.isDeferInCombatEnabled()
 			);
 		}
 
@@ -65,18 +68,22 @@ public class ReminderService {
 		int intervalMinutes,
 		List<ToastText> baseMessages,
 		List<ToastText> insultMessages,
-		boolean includeInsults
+		boolean includeInsults,
+		boolean deferInCombat
 	) {
 		List<ToastText> messages = includeInsults
 			? Stream.concat(baseMessages.stream(), insultMessages.stream())
 			.collect(Collectors.toList())
 			: baseMessages;
 
-		// TODO: change ofSeconds to ofMinutes
+		Supplier<Boolean> shouldDefer = deferInCombat
+			? this.combatTracker::wasRecentlyInCombat
+			: () -> false;
+
 		this.scheduler.schedule(
 			Duration.ofSeconds(intervalMinutes),
 			ReminderService.DEFER_DURATION,
-			this.combatTracker::wasRecentlyInCombat,
+			shouldDefer,
 			ToastDispatcher.show(toastId, messages)
 		);
 	}

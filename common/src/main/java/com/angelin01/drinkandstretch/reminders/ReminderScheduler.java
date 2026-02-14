@@ -40,7 +40,7 @@ public final class ReminderScheduler implements AutoCloseable {
 			Duration nextDelay;
 
 			if (shouldDefer.get()) {
-				ReminderScheduler.LOGGER.info("Task deferred, rescheduling in {}s", deferDuration.toSeconds());
+				ReminderScheduler.LOGGER.debug("Task deferred, rescheduling in {}s", deferDuration.toSeconds());
 				nextDelay = deferDuration;
 			} else {
 				try {

@@ -54,7 +54,7 @@ public final class DrinkAndStretch {
 	}
 
 	public static void onPlayerReceiveDamage(LocalPlayer player, DamageSource source) {
-		DrinkAndStretch.LOGGER.info("Player {} received damage with source={}, entity={}, directEntitiy={}", player, source, source.getEntity(), source.getDirectEntity());
+		DrinkAndStretch.LOGGER.debug("Player {} received damage with source={}, entity={}, directEntitiy={}", player, source, source.getEntity(), source.getDirectEntity());
 		DrinkAndStretch.combatTracker.onPlayerReceiveDamage(player, source);
 	}
 

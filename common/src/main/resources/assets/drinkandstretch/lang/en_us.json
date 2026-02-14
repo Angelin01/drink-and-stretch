@@ -12,6 +12,9 @@
   "text.autoconfig.drinkandstretch.option.enableInsults.@PrefixText": "Misc/Fun options",
   "text.autoconfig.drinkandstretch.option.enableInsults": "Enable insults",
 
+  "text.autoconfig.drinkandstretch.option.enableDeferInCombat.@Tooltip": "When enabled, reminders are delayed if they would appear shortly after you took or dealt damage",
+  "text.autoconfig.drinkandstretch.option.enableDeferInCombat": "Delay reminders in combat",
+
   "drinkandstretch.toast.drink.1.title": "Drink water",
   "drinkandstretch.toast.drink.1.message": "Do it now!",
   "drinkandstretch.toast.drink.2.title": "Hydration check",
