@@ -19,14 +19,21 @@ modId = "neoforge"
 type = "required"
 versionRange = "[21.1,)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
 [[dependencies.drinkandstretch]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21.1,)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
+
+[[dependencies.drinkandstretch]]
+modId = "cloth_config"
+type = "required"
+versionRange = "[15,16)"
+ordering = "AFTER"
+side = "CLIENT"
 
 [[mixins]]
 config = "drinkandstretch.mixins.json"
