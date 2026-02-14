@@ -29,4 +29,4 @@ ordering = "NONE"
 side = "BOTH"
 
 [[mixins]]
-config = "drinkandstretch.neoforge.mixins.json"
+config = "drinkandstretch.mixins.json"

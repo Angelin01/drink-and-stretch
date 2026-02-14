@@ -23,7 +23,7 @@
     ]
   },
   "mixins": [
-    "drinkandstretch.fabric.mixins.json"
+    "drinkandstretch.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.18.4",
