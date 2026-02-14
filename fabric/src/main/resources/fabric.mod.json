@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "drinkandstretch",
+  "id": "${modId}",
   "version": "${version}",
-  "name": "Drink and Stretch",
-  "description": "A Minecraft mod to remind you to drink water and stretch every once in a while.",
+  "name": "${modName}",
+  "description": "${description}",
   "authors": [
-    "Angelin01"
+    "${authors}"
   ],
+  "icon": "${iconLogo}",
   "contact": {
-    "homepage": "https://github.com/Angelin01/drink-and-stretch",
-    "sources": "git@github.com:Angelin01/drink-and-stretch.git",
-    "issues": "https://github.com/Angelin01/drink-and-stretch/issues"
+    "homepage": "${homepage}",
+    "issues": "${issues}"
   },
-  "license": "Apache-2.0",
+  "license": "${license}",
   "environment": "client",
   "entrypoints": {
     "main": [
@@ -23,7 +23,7 @@
     ]
   },
   "mixins": [
-    "drinkandstretch.fabric.mixins.json"
+    "drinkandstretch.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.18.4",

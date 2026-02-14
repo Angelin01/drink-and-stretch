@@ -1,13 +1,14 @@
 {
-  "required": true,
-  "package": "com.angelin01.drinkandstretch.mixin",
+  "required": false,
+  "package": "com.angelin01.drinkandstretch.mixins",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
+    "LocalPlayerMixin"
   ],
   "mixins": [
   ],
   "injectors": {
-    "defaultRequire": 1
+    "defaultRequire": 0
   }
 }

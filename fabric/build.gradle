@@ -40,10 +40,22 @@ dependencies {
 }
 
 processResources {
-	inputs.property 'version', project.version
+	def props = [
+		version     : project.version,
+		modId       : project.mod_id,
+		modName     : project.mod_name,
+		description : project.mod_description,
+		authors     : project.mod_authors,
+		homepage    : project.mod_homepage,
+		issues      : project.mod_issues,
+		license     : project.mod_license,
+		iconLogo    : project.mod_logo,
+	]
 
-	filesMatching('fabric.mod.json') {
-		expand version: inputs.properties.version
+	inputs.properties(props)
+
+	filesMatching("fabric.mod.json") {
+		expand(props)
 	}
 }
 
