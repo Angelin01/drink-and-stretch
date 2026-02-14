@@ -41,10 +41,22 @@ dependencies {
 }
 
 processResources {
-	inputs.property 'version', project.version
+	def props = [
+		version     : project.version,
+		modId       : project.mod_id,
+		displayName : project.mod_name,
+		authors     : project.mod_authors,
+		homepage    : project.mod_homepage,
+		description : project.mod_description,
+		issues      : project.mod_issues,
+		license     : project.mod_license,
+		iconLogo    : project.mod_logo,
+	]
 
-	filesMatching('META-INF/neoforge.mods.toml') {
-		expand version: inputs.properties.version
+	inputs.properties(props)
+
+	filesMatching("META-INF/neoforge.mods.toml") {
+		expand(props)
 	}
 }
 
