@@ -7,6 +7,24 @@ pluginManagement {
     }
 }
 
+def minecraftVersion= providers.gradleProperty("minecraft_version").orNull
+
+assert minecraftVersion : "ERROR: Pass -Pminecraft_version=<version> or configure a default in gradle.properties"
+
+def propFileName = "versionProperties/${minecraftVersion}.properties"
+def propsFile = file(propFileName)
+assert propsFile.exists() : "ERROR: No properties for Minecraft Version ${minecraftVersion}, check the -Pminecraft_version flag and that the $propFileName exists"
+
+def props = new Properties()
+props.load(propsFile.newInputStream())
+
+gradle.beforeProject { project ->
+	project.ext.minecraft_version = minecraftVersion
+	props.each { k, v ->
+		project.ext.set(k.toString(), v)
+	}
+}
+
 rootProject.name = 'drinkandstretch'
 
 include 'common'
