@@ -27,6 +27,8 @@ gradle.beforeProject { project ->
 
 rootProject.name = 'drinkandstretch'
 
-include 'common'
-include 'fabric'
-include 'neoforge'
+include("common")
+props.getProperty("enabled_platforms")
+		?.split(",")
+		?.collect { it.trim() }
+		?.each { include(it) }
