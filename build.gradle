@@ -91,7 +91,7 @@ subprojects {
 	}
 
 	tasks.withType(JavaCompile).configureEach {
-		it.options.release = 21
+		it.options.release = rootProject.java_version as Integer
 	}
 
 	// Configure Maven publishing.

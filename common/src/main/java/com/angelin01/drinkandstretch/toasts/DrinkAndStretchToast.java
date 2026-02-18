@@ -17,7 +17,12 @@ import org.jetbrains.annotations.Nullable;
 
 @Environment(EnvType.CLIENT)
 public class DrinkAndStretchToast implements Toast {
-	private static final ResourceLocation BG_SPRITE = DrinkAndStretch.resourceLocation("toast/background");
+	#if MINECRAFT_VERSION >= 1021000
+	private static final String BG_SPRITE_PATH = "toast/background";
+	#else
+	private static final String BG_SPRITE_PATH = "textures/gui/sprites/toast/background.png";
+	#endif
+	private static final ResourceLocation BG_SPRITE = DrinkAndStretch.resourceLocation(DrinkAndStretchToast.BG_SPRITE_PATH);
 	private static final int BG_WIDTH = 160;
 	private static final int BG_HEIGHT = 32;
 	private static final int BG_SIDE_CAP_WIDTH = 40;
@@ -181,8 +186,15 @@ public class DrinkAndStretchToast implements Toast {
 
 	@Environment(EnvType.CLIENT)
 	public final static class DrinkAndStretchToastId {
-		public static final DrinkAndStretchToastId DRINK = new DrinkAndStretchToastId("toast/icon_drink", 5000L, 0x19E0FA);
-		public static final DrinkAndStretchToastId STRETCH = new DrinkAndStretchToastId("toast/icon_stretch", 8000L, 0xFFFF00);
+		#if MINECRAFT_VERSION >= 1021000
+		private static final String DRINK_RESOURCE_PATH = "toast/icon_drink";
+		private static final String STRETCH_RESOURCE_PATH = "toast/icon_stretch";
+		#else
+		private static final String DRINK_RESOURCE_PATH = "textures/gui/sprites/toast/icon_drink.png";
+		private static final String STRETCH_RESOURCE_PATH = "textures/gui/sprites/toast/icon_stretch.png";
+		#endif
+		public static final DrinkAndStretchToastId DRINK = new DrinkAndStretchToastId(DrinkAndStretchToastId.DRINK_RESOURCE_PATH, 5000L, 0x19E0FA);
+		public static final DrinkAndStretchToastId STRETCH = new DrinkAndStretchToastId(DrinkAndStretchToastId.STRETCH_RESOURCE_PATH, 8000L, 0xFFFF00);
 
 		final ResourceLocation icon;
 		final long durationMillis;

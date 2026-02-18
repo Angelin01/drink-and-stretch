@@ -26,10 +26,10 @@
     "drinkandstretch.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.18.4",
-    "minecraft": "~1.21.1",
-    "java": ">=21",
+    "fabricloader": ">=${fabricLoaderVersion}",
+    "minecraft": "~${minecraftVersion}",
+    "java": ">=${javaVersion}",
     "fabric-api": "*",
-    "cloth-config": "^15.0.0"
+    "cloth-config": "^${clothConfigVersion}.0.0"
   }
 }
