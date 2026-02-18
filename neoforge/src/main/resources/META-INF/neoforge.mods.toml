@@ -14,24 +14,24 @@ ${description}
 '''
 logoFile = "${iconLogo}"
 
-[[dependencies.drinkandstretch]]
+[[dependencies.${modId}]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.1,)"
+versionRange = "[${neoforgeVersion})"
 ordering = "NONE"
 side = "CLIENT"
 
-[[dependencies.drinkandstretch]]
+[[dependencies.${modId}]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.1,)"
+versionRange = "[${minecraftVersion},)"
 ordering = "NONE"
 side = "CLIENT"
 
-[[dependencies.drinkandstretch]]
+[[dependencies.${modId}]]
 modId = "cloth_config"
 type = "required"
-versionRange = "[15,16)"
+versionRange = "[${clothConfigVersion},)"
 ordering = "AFTER"
 side = "CLIENT"
 
