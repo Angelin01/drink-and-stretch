@@ -1,6 +1,7 @@
 package com.angelin01.drinkandstretch.toasts;
 
 import com.angelin01.drinkandstretch.DrinkAndStretch;
+import com.angelin01.drinkandstretch.utils.RenderUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -38,11 +39,18 @@ public class DrinkAndStretchToast implements Toast {
 
 	public DrinkAndStretchToast(DrinkAndStretchToastId id, Component title, @Nullable Component message) {
 		this(
-				id,
-				title,
-				message != null ? message.getVisualOrderText() : null,
-				DrinkAndStretchToast.calculateWidth(title, message)
+			id,
+			title,
+			message != null ? message.getVisualOrderText() : null,
+			DrinkAndStretchToast.calculateWidth(title, message)
 		);
+	}
+
+	private DrinkAndStretchToast(DrinkAndStretchToastId id, Component title, FormattedCharSequence message, int width) {
+		this.id = id;
+		this.title = title;
+		this.message = message;
+		this.width = width;
 	}
 
 	private static int calculateWidth(Component title, @Nullable Component message) {
@@ -54,13 +62,6 @@ public class DrinkAndStretchToast implements Toast {
 				message == null ? 0 : font.width(message)
 			)
 		);
-	}
-
-	private DrinkAndStretchToast(DrinkAndStretchToastId id, Component title, FormattedCharSequence message, int width) {
-		this.id = id;
-		this.title = title;
-		this.message = message;
-		this.width = width;
 	}
 
 	public static void add(ToastComponent toastComponent, DrinkAndStretchToastId id, Component title, @Nullable Component message) {
@@ -97,7 +98,7 @@ public class DrinkAndStretchToast implements Toast {
 		return elapsed < totalDuration ? Visibility.SHOW : Visibility.HIDE;
 	}
 
-	private void renderBackground(GuiGraphics g) {
+	private void renderBackground(GuiGraphics guiGraphics) {
 		final int targetWidth = this.width();
 		final int height = DrinkAndStretchToast.BG_HEIGHT;
 
@@ -105,41 +106,45 @@ public class DrinkAndStretchToast implements Toast {
 		final int right = DrinkAndStretchToast.BG_SIDE_CAP_WIDTH;
 		final int middleTargetWidth = targetWidth - left - right;
 
-		g.blitSprite(
-				DrinkAndStretchToast.BG_SPRITE,
-				DrinkAndStretchToast.BG_WIDTH, DrinkAndStretchToast.BG_HEIGHT,
-				0, 0,
-				0, 0,
-				left, height
+		RenderUtil.blitSprite(
+			guiGraphics,
+			DrinkAndStretchToast.BG_SPRITE,
+			DrinkAndStretchToast.BG_WIDTH, DrinkAndStretchToast.BG_HEIGHT,
+			0, 0,
+			0, 0,
+			left, height
 		);
 
 		for (int x = 0; x < middleTargetWidth; x += DrinkAndStretchToast.BG_MIDDLE_WIDTH) {
 			int sliceWidth = Math.min(DrinkAndStretchToast.BG_MIDDLE_WIDTH, middleTargetWidth - x);
-			g.blitSprite(
-					DrinkAndStretchToast.BG_SPRITE,
-					DrinkAndStretchToast.BG_WIDTH, DrinkAndStretchToast.BG_HEIGHT,
-					DrinkAndStretchToast.BG_MIDDLE_U, 0,
-					left + x, 0,
-					sliceWidth, height
+			RenderUtil.blitSprite(
+				guiGraphics,
+				DrinkAndStretchToast.BG_SPRITE,
+				DrinkAndStretchToast.BG_WIDTH, DrinkAndStretchToast.BG_HEIGHT,
+				DrinkAndStretchToast.BG_MIDDLE_U, 0,
+				left + x, 0,
+				sliceWidth, height
 			);
 		}
 
-		g.blitSprite(
-				DrinkAndStretchToast.BG_SPRITE,
-				DrinkAndStretchToast.BG_WIDTH, DrinkAndStretchToast.BG_HEIGHT,
-				DrinkAndStretchToast.BG_WIDTH - right, 0,
-				left + middleTargetWidth, 0,
-				right, height
+		RenderUtil.blitSprite(
+			guiGraphics,
+			DrinkAndStretchToast.BG_SPRITE,
+			DrinkAndStretchToast.BG_WIDTH, DrinkAndStretchToast.BG_HEIGHT,
+			DrinkAndStretchToast.BG_WIDTH - right, 0,
+			left + middleTargetWidth, 0,
+			right, height
 		);
 	}
 
-	private void renderIcon(GuiGraphics g) {
-		g.blitSprite(
-				this.id.icon,
-				DrinkAndStretchToast.ICON_MARGIN,
-				DrinkAndStretchToast.ICON_MARGIN,
-				DrinkAndStretchToast.ICON_SIZE,
-				DrinkAndStretchToast.ICON_SIZE
+	private void renderIcon(GuiGraphics guiGraphics) {
+		RenderUtil.blitSprite(
+			guiGraphics,
+			this.id.icon,
+			DrinkAndStretchToast.ICON_MARGIN,
+			DrinkAndStretchToast.ICON_MARGIN,
+			DrinkAndStretchToast.ICON_SIZE,
+			DrinkAndStretchToast.ICON_SIZE
 		);
 	}
 
