@@ -2,6 +2,7 @@ plugins {
 	id 'dev.architectury.loom' version '1.11-SNAPSHOT' apply false
 	id 'architectury-plugin' version '3.4-SNAPSHOT'
 	id 'com.gradleup.shadow' version '8.3.6' apply false
+	id 'xyz.wagyourtail.manifold' version '1.1.1-SNAPSHOT'
 }
 
 architectury {
@@ -13,14 +14,44 @@ allprojects {
 	version = rootProject.mod_version
 }
 
+
+// Manifold things
+/*
+ Examples:
+ - 1.20.1  -> 1_020_001
+ - 1.21.1  -> 1_021_001
+ - 1.21.10 -> 1_021_010
+ */
+def semverToInt(String version) {
+	def parts = version.tokenize('.')
+	def major = parts[0] as Integer
+	def minor = parts.size() > 1 ? parts[1] as Integer : 0
+	def patch = parts.size() > 2 ? parts[2] as Integer : 0
+	return major * 1_000_000 + minor * 1_000 + patch
+}
+def minecraftVersionInt = semverToInt(project.findProperty('minecraft_version'))
+
+manifold {
+	version = "${rootProject.manifold_version}"
+}
+
 subprojects {
 	apply plugin: 'dev.architectury.loom'
 	apply plugin: 'architectury-plugin'
+	apply plugin: 'xyz.wagyourtail.manifold'
 	apply plugin: 'maven-publish'
 
 	base {
 		// Set up a suffixed format for the mod jar names, e.g. `example-fabric`.
 		archivesName = "$rootProject.archives_name-$project.name"
+	}
+
+	manifold {
+		preprocessor {
+			config {
+				property("MINECRAFT_VERSION", minecraftVersionInt)
+			}
+		}
 	}
 
 	repositories {
@@ -45,6 +76,7 @@ subprojects {
 
 	dependencies {
 		minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
+		annotationProcessor(manifold.module("preprocessor"))
 		mappings loom.officialMojangMappings()
 	}
 
@@ -59,7 +91,7 @@ subprojects {
 	}
 
 	tasks.withType(JavaCompile).configureEach {
-		it.options.release = 21
+		it.options.release = rootProject.java_version as Integer
 	}
 
 	// Configure Maven publishing.

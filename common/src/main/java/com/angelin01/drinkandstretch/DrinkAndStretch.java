@@ -59,7 +59,11 @@ public final class DrinkAndStretch {
 	}
 
 	public static ResourceLocation resourceLocation(String path) {
+		#if MINECRAFT_VERSION >= 1021000
 		return ResourceLocation.fromNamespaceAndPath(DrinkAndStretch.MOD_ID, path);
+		#else
+		return new ResourceLocation(DrinkAndStretch.MOD_ID, path);
+		#endif
 	}
 
 	public static void startPeriodicReminders() {
