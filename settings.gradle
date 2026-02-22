@@ -30,7 +30,7 @@ gradle.beforeProject { project ->
 rootProject.name = 'drinkandstretch'
 
 include("common")
-props.getProperty("enabled_platforms")
-		?.split(",")
+def enabledPlatforms = props.getProperty("enabled_platforms") ?: providers.gradleProperty("enabled_platforms").orNull
+enabledPlatforms?.split(",")
 		?.collect { it.trim() }
 		?.each { include(it) }
