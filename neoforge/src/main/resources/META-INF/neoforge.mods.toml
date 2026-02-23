@@ -17,7 +17,7 @@ logoFile = "${iconLogo}"
 [[dependencies.${modId}]]
 modId = "neoforge"
 type = "required"
-versionRange = "[${neoforgeVersion})"
+versionRange = "[${neoforgeVersion},)"
 ordering = "NONE"
 side = "CLIENT"
 

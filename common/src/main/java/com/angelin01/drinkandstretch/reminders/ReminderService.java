@@ -81,7 +81,7 @@ public class ReminderService {
 			: () -> false;
 
 		this.scheduler.schedule(
-			Duration.ofSeconds(intervalMinutes),
+			Duration.ofMinutes(intervalMinutes),
 			ReminderService.DEFER_DURATION,
 			shouldDefer,
 			ToastDispatcher.show(toastId, messages)
