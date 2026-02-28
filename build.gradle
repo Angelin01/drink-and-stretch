@@ -112,3 +112,12 @@ subprojects {
 		}
 	}
 }
+
+tasks.register('printEnabledPlatforms') {
+	doLast {
+		def enabledPlatforms = subprojects*.name
+			.findAll { it != "common" }
+			.join('\n')
+		println enabledPlatforms
+	}
+}
