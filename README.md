@@ -9,6 +9,10 @@ Do you want to be mildly healthier?
 Drink and Stretch sends you periodic reminders to, well... Drink and Stretch! Inspired by the likes of bash
 insults and sudo insults, it can also mildly insult you, if that's your thing!
 
+![An example of a drink reminder saying "Hydration check", "Your kidneys will thank you"](./common/art/showcase/drink-toast.png)
+
+![An example of a stretch reminder saying "Get up and move!", "It's healthy in small doses"](./common/art/showcase/stretch-toast.png)
+
 By default, it will send you a reminder to drink water every 45 minutes, and to stretch every 2 hours.
 
 The period is configurable, and it tries really hard to NOT bother you in combat, delaying the notification so you
