@@ -37,6 +37,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v6
+        with:
+          lfs: "true"
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -110,7 +112,7 @@ jobs:
   github-release:
     name: Create GitHub Release
     runs-on: ubuntu-slim
-    needs: [build]
+    needs: [generate-version-matrix, build]
     permissions:
       contents: write
     steps:
